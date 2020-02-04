@@ -11,6 +11,9 @@ It consists of three prismatic joints and three revolute joints. The prismatic j
 The MARG unit is attached to a plate at the end of this kinematic chain and, so, the 6 DOF system enables both the spatial coordinates and orientation of the sensor frame to be set and measured.
 Therefore, a variety of dynamic (vibrating and accelerating) system conditions can be simulated, where both the raw sensor data and real joint states are recorded.
 
+Video demo: http://appl-dsp.com/faekf/
+
+
 How to use my package?
 1. Install ROS
 
