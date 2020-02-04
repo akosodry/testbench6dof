@@ -4,6 +4,7 @@ A free-to-use Robot Operating System (ROS) package that enables both the generat
 Odry, Á.; Kecskes, I.; Sarcevic, P.; Vizvari, Z.; Toth, A.; Odry, P. A Novel Fuzzy-Adaptive Extended Kalman Filter for Real-Time Attitude Estimation of Mobile Robots. Sensors 2020, 20, 803.
 https://www.mdpi.com/1424-8220/20/3/803
 
+
 A ROS-based framework developed for attitude estimation filter development:
 
 This 6 DOF test bench can be utilized to both simulate various (accelerating, non-accelerating, and vibrating) dynamic behaviors and measure the real attitude of the sensor frame, along with the raw MARG data.
@@ -12,6 +13,9 @@ The MARG unit is attached to a plate at the end of this kinematic chain and, so,
 Therefore, a variety of dynamic (vibrating and accelerating) system conditions can be simulated, where both the raw sensor data and real joint states are recorded.
 
 Video demo: http://appl-dsp.com/faekf/
+
+
+The magdist folder contains the MATLAB script to generate artificial magnetic disturbances.
 
 
 How to use my package?
