@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- Materials -->
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+  <material name="Silver">
+    <color rgba="0.75 0.75 0.75 1"/>
+  </material>
+  <material name="Brown">
+    <color rgba="0.87 0.81 0.76 1"/>
+  </material>
+  <material name="Blue">
+    <color rgba="0.0 0.0 0.75 1"/>
+  </material>
+  <material name="Grey">
+    <color rgba="0.2 0.2 0.2 1"/>
+  </material>
+  <material name="Orange">
+    <color rgba="1.0 0.4 0.0 1.0"/>
+  </material>
+  
+  
+  <!-- MACROS -->
+  <xacro:macro name="cylinder_inertial2" params="radius length mass">
+    <!-- *origin">-->
+    <inertial>
+      <mass value="${mass}"/>
+      <!-- <xacro:insert_block name="origin" />-->
+      <inertia ixx="${0.0833333*mass * (3*radius*radius + length*length)}" ixy="0.0" ixz="0.0" iyy="${0.0833333*mass * (3*radius*radius + length*length)}" iyz="0.0" izz="${0.5*mass*radius*radius}"/>
+    </inertial>
+  </xacro:macro>
+  
+  <xacro:macro name="cylinder_visual2" params="radius length material *origin">
+    <visual>
+      <geometry>
+        <cylinder length="${length}" radius="${radius}"/>
+      </geometry>
+      <material name="${material}"/>
+      <xacro:insert_block name="origin"/>
+    </visual>
+  </xacro:macro>
+  
+  <xacro:macro name="cylinder_collision2" params="radius length *origin">
+    <collision>
+      <geometry>
+        <cylinder length="${length}" radius="${radius}"/>
+      </geometry>
+      <xacro:insert_block name="origin"/>
+    </collision>
+  </xacro:macro>
+  
+</robot>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="testenv6dof" xmlns:xacro="http://ros.org/wiki/xacro">
+
+	
+	<xacro:include filename="$(find testbench6dof)/urdf/testenv.xacro"/>
+	
+	<xacro:include filename="$(find testbench6dof)/urdf/gazebo_controller.xacro"/>
+    
+    <link name="world"/>
+    <xacro:testenv parent="world"/>
+
+</robot>

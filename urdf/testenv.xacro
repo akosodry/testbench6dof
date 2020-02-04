@@ -1,0 +1,350 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find testbench6dof)/urdf/testenv.gazebo.xacro"/>
+  <xacro:include filename="$(find testbench6dof)/urdf/testenv.transmission.xacro"/>
+  <xacro:include filename="$(find testbench6dof)/urdf/testenv.material.xacro"/>
+  <!-- Inertia parameters -->
+  <xacro:property name="testenv_dh_d0" value="${0.2}"/>
+  <xacro:property name="testenv_base_dimx" value="0.1"/>
+  <xacro:property name="testenv_base_dimy" value="0.1"/>
+  <xacro:property name="testenv_base_dimz" value="0.02"/>
+  <xacro:property name="testenv_base_mass" value="2000000"/>
+  <xacro:property name="testenv_link_1_mass" value="500.00"/>
+  <xacro:property name="testenv_link_1_radius" value="0.02"/>
+  <xacro:property name="testenv_link_1_length" value="${0.1}"/>
+  <xacro:property name="testenv_link_2_mass" value="500.0"/>
+  <xacro:property name="testenv_link_2_radius" value="0.02"/>
+  <xacro:property name="testenv_link_2_length" value="0.1"/>
+  <xacro:property name="testenv_link_3_mass" value="200.0"/>
+  <xacro:property name="testenv_link_3_radius" value="${0.02}"/>
+  <xacro:property name="testenv_link_3_length" value="${0.1}"/>
+  <xacro:property name="testenv_eef_offset" value="0.1"/>
+  <xacro:property name="testenv_eef_link_dimx" value="${0.1}"/>
+  <xacro:property name="testenv_eef_link_dimy" value="${0.1}"/>
+  <xacro:property name="testenv_eef_link_dimz" value="${0.01}"/>
+  <xacro:property name="testenv_eef_link_mass" value="${0.2}"/>
+
+  <xacro:property name="testenv_joint_1_lim_min" value="${-0}"/>
+  <xacro:property name="testenv_joint_1_lim_max" value="${+3}"/>
+  <xacro:property name="testenv_joint_1_damping" value="${0.0}"/>
+  <xacro:property name="testenv_joint_1_friction" value="${0.0}"/>
+  <xacro:property name="testenv_joint_2_lim_min" value="${-0}"/>
+  <xacro:property name="testenv_joint_2_lim_max" value="${3}"/>
+  <xacro:property name="testenv_joint_2_damping" value="${0.0}"/>
+  <xacro:property name="testenv_joint_2_friction" value="${0.0}"/>
+  <xacro:property name="testenv_joint_3_lim_min" value="${-0}"/>
+  <xacro:property name="testenv_joint_3_lim_max" value="${3}"/>
+  <xacro:property name="testenv_joint_3_damping" value="${0.0}"/>
+  <xacro:property name="testenv_joint_3_friction" value="${0.0}"/>
+  <xacro:property name="testenv_joint_4_lim_min" value="${-3.14}"/>
+  <xacro:property name="testenv_joint_4_lim_max" value="${3.14}"/>
+  <xacro:property name="testenv_joint_4_damping" value="${0.0}"/>
+  <xacro:property name="testenv_joint_4_friction" value="${0.0}"/>
+  <xacro:property name="testenv_joint_5_lim_min" value="${-3.14}"/>
+  <xacro:property name="testenv_joint_5_lim_max" value="${3.14}"/>
+  <xacro:property name="testenv_joint_5_damping" value="${0.0}"/>
+  <xacro:property name="testenv_joint_5_friction" value="${0.0}"/>
+  <xacro:property name="testenv_joint_6_lim_min" value="${-3.14}"/>
+  <xacro:property name="testenv_joint_6_lim_max" value="${3.14}"/>
+  <xacro:property name="testenv_joint_6_damping" value="${0.0}"/>
+  <xacro:property name="testenv_joint_6_friction" value="${0.0}"/>
+ 
+  <xacro:property name="testenv_joint_1_velocity" value="${3.5}"/>
+  <xacro:property name="testenv_joint_2_velocity" value="${3.5}"/>
+  <xacro:property name="testenv_joint_3_velocity" value="${3.5}"/>
+  <xacro:property name="testenv_joint_4_velocity" value="${40}"/>
+  <xacro:property name="testenv_joint_5_velocity" value="${40}"/>
+  <xacro:property name="testenv_joint_6_velocity" value="${40}"/>
+  <xacro:property name="testenv_joint_1_effort" value="${3000000}"/>
+  <xacro:property name="testenv_joint_2_effort" value="${3000000}"/>
+  <xacro:property name="testenv_joint_3_effort" value="${300000}"/>
+  <xacro:property name="testenv_joint_4_effort" value="${8000}"/>
+  <xacro:property name="testenv_joint_5_effort" value="${8000}"/>
+  <xacro:property name="testenv_joint_6_effort" value="${8000}"/>
+  
+  <xacro:property name="imu_height" value="0.01"/>
+  <xacro:property name="imu_width" value="0.02"/>
+  <xacro:property name="imu_x" value="0"/>
+  <xacro:property name="imu_y" value="0"/>
+  <xacro:property name="imu_z" value="0.00"/>
+  <!-- DESCRIPTION -->
+  <xacro:macro name="testenv" params="parent">
+    <joint name="testenv_joint_0" type="fixed">
+      <parent link="${parent}"/>
+      <child link="testenv_base_link"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    </joint>
+    <link name="testenv_base_link">
+      <xacro:cylinder_inertial2 length="${testenv_base_dimz}" mass="${testenv_base_mass}" radius="${testenv_base_dimy}"/>
+      <visual>
+        <origin xyz="0 0 ${testenv_base_dimz/2.0}"/>
+        <geometry>
+          <box size="${testenv_base_dimx} ${testenv_base_dimy} ${testenv_base_dimz}"/>
+        </geometry>
+        <material name="Brown"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${testenv_base_dimz/2.0}"/>
+        <geometry>
+          <box size="${testenv_base_dimx} ${testenv_base_dimy} ${testenv_base_dimz}"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="testenv_joint_1" type="prismatic">
+      <parent link="testenv_base_link"/>
+      <child link="testenv_link_1"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 ${testenv_dh_d0}"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="${testenv_joint_1_effort}" lower="${testenv_joint_1_lim_min}" upper="${testenv_joint_1_lim_max}" velocity="${testenv_joint_1_velocity}"/>
+      <dynamics damping="${testenv_joint_1_damping}" friction="${testenv_joint_1_friction}"/>
+    </joint>
+    <link name="testenv_link_1">
+      <xacro:cylinder_visual2 length="${testenv_link_1_length}" material="White" radius="${testenv_link_1_radius}">
+        <origin rpy="0 ${0.5*pi} 0" xyz="0.0 0.0 ${0}"/>
+      </xacro:cylinder_visual2>
+      <!--<xacro:cylinder_collision2 length="${testenv_link_1_length}" radius="${testenv_link_1_radius}"><origin rpy="0 ${0.5*pi} 0" xyz="0.0 0.0 ${0}"/></xacro:cylinder_collision2>-->
+      <xacro:cylinder_inertial2 length="${testenv_link_1_length}" mass="${testenv_link_1_mass}" radius="${testenv_link_1_radius}"/>
+    </link>
+    <joint name="testenv_joint_2" type="prismatic">
+      <parent link="testenv_link_1"/>
+      <child link="testenv_link_2"/>
+      <origin rpy="${0} ${0} 0.0" xyz="0.0 0.0 ${0}"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="${testenv_joint_2_effort}" lower="${testenv_joint_2_lim_min}" upper="${testenv_joint_2_lim_max}" velocity="${testenv_joint_2_velocity}"/>
+      <dynamics damping="${testenv_joint_2_damping}" friction="${testenv_joint_2_friction}"/>
+    </joint>
+    <link name="testenv_link_2">
+      <xacro:cylinder_visual2 length="${testenv_link_2_length}" material="White" radius="${testenv_link_2_radius}">
+        <origin rpy="${0.5*pi} 0 0" xyz="${0} 0.0 0.0"/>
+      </xacro:cylinder_visual2>
+      <!--<xacro:cylinder_collision2 length="${testenv_link_2_length}" radius="${testenv_link_2_radius}"><origin rpy="${0.5*pi} 0 0" xyz="${0} 0.0 0.0"/></xacro:cylinder_collision2>-->
+      <xacro:cylinder_inertial2 length="${testenv_link_2_length}" mass="${testenv_link_2_mass}" radius="${testenv_link_2_radius}"/>
+    </link>
+    <joint name="testenv_joint_3" type="prismatic">
+      <parent link="testenv_link_2"/>
+      <child link="testenv_link_3"/>
+      <origin rpy="0.0 0.0 ${0}" xyz="${0} 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="${testenv_joint_3_effort}" lower="${testenv_joint_3_lim_min}" upper="${testenv_joint_3_lim_max}" velocity="${testenv_joint_3_velocity}"/>
+      <dynamics damping="${testenv_joint_3_damping}" friction="${testenv_joint_3_friction}"/>
+    </joint>
+    <link name="testenv_link_3">
+      <xacro:cylinder_visual2 length="${testenv_link_3_length}" material="White" radius="${testenv_link_3_radius}">
+        <origin rpy="0 ${0.5*pi*0} 0" xyz="${0} 0.0 0.0"/>
+      </xacro:cylinder_visual2>
+      <!--<xacro:cylinder_collision2 length="${testenv_link_3_length}" radius="${testenv_link_3_radius}"><origin rpy="0 ${0.5*pi*0} 0" xyz="${0} 0.0 0.0"/></xacro:cylinder_collision2>-->
+      <xacro:cylinder_inertial2 length="${testenv_link_3_length}" mass="${testenv_link_3_mass}" radius="${testenv_link_3_radius}"/>
+    </link>
+
+    <joint name="testenv_eef_joint0" type="fixed">
+      <parent link="testenv_link_3"/>
+      <child link="testenv_eef_link0"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0 0 ${testenv_eef_offset*2}"/>
+    </joint>
+    <link name="testenv_eef_link0">
+      <xacro:cylinder_inertial2 length="${0.05}" mass="${0.2}" radius="${0.02}"/>
+    </link>
+
+    <joint name="testenv_joint_4" type="revolute">
+      <parent link="testenv_eef_link0"/>
+      <child link="testenv_link_4"/>
+      <origin rpy="0.0 0.0 0.0" xyz="${0} 0.0 0.0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="${testenv_joint_4_effort}" lower="${testenv_joint_4_lim_min}" upper="${testenv_joint_4_lim_max}" velocity="${testenv_joint_4_velocity}"/>
+      <dynamics damping="${testenv_joint_4_damping}" friction="${testenv_joint_4_friction}"/>
+    </joint>
+    <link name="testenv_link_4">
+      <xacro:cylinder_inertial2 length="${0.05}" mass="${0.2}" radius="${0.02}"/>
+    </link>
+    <joint name="testenv_joint_5" type="revolute">
+      <parent link="testenv_link_4"/>
+      <child link="testenv_link_5"/>
+      <origin rpy="0.0 0.0 0.0" xyz="${0} 0.0 0.0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="${testenv_joint_5_effort}" lower="${testenv_joint_5_lim_min}" upper="${testenv_joint_5_lim_max}" velocity="${testenv_joint_5_velocity}"/>
+      <dynamics damping="${testenv_joint_5_damping}" friction="${testenv_joint_5_friction}"/>
+    </joint>
+    <link name="testenv_link_5">
+      <xacro:cylinder_inertial2 length="${0.05}" mass="${0.2}" radius="${0.02}"/>
+    </link>
+    <joint name="testenv_joint_6" type="revolute">
+      <parent link="testenv_link_5"/>
+      <child link="testenv_link_6"/>
+      <origin rpy="0.0 0.0 0.0" xyz="${0} 0.0 0.0"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="${testenv_joint_6_effort}" lower="${testenv_joint_6_lim_min}" upper="${testenv_joint_6_lim_max}" velocity="${testenv_joint_6_velocity}"/>
+      <dynamics damping="${testenv_joint_6_damping}" friction="${testenv_joint_6_friction}"/>
+    </joint>
+    <link name="testenv_link_6">
+      <xacro:cylinder_inertial2 length="${0.05}" mass="${0.2}" radius="${0.02}"/>
+    </link>
+    <joint name="testenv_eef_joint" type="fixed">
+      <parent link="testenv_link_6"/>
+      <child link="testenv_eef_link"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0 0 ${testenv_eef_offset*0}"/>
+    </joint>
+    <link name="testenv_eef_link">
+      <visual>
+        <geometry>
+          <box size="${testenv_eef_link_dimx} ${testenv_eef_link_dimy} ${testenv_eef_link_dimz}"/>
+        </geometry>
+        <material name="Silver"/>
+        <origin rpy="0 0 0" xyz="${0} 0 ${-0.5*testenv_eef_link_dimz}"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${testenv_eef_link_dimx} ${testenv_eef_link_dimy} ${testenv_eef_link_dimz}"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="${0} 0 ${-0.5*testenv_eef_link_dimz}"/>
+      </collision>
+      <xacro:cylinder_inertial2 length="${testenv_eef_link_dimx}" mass="${testenv_eef_link_mass}" radius="${0.1}"/>
+    </link>
+    <!---->
+    <xacro:testenv_gazebo/>
+    <xacro:transmission_block2 joint_name="testenv_joint_1"/>
+    <xacro:transmission_block2 joint_name="testenv_joint_2"/>
+    <xacro:transmission_block2 joint_name="testenv_joint_3"/>
+    <xacro:transmission_block2 joint_name="testenv_joint_4"/>
+    <xacro:transmission_block2 joint_name="testenv_joint_5"/>
+    <xacro:transmission_block2 joint_name="testenv_joint_6"/>
+    <joint name="imu_fixed_joint" type="fixed">
+      <parent link="testenv_eef_link"/>
+      <child link="imu_sensor"/>
+      <origin rpy="0.0 0 0.0" xyz="${imu_x} ${imu_y} ${imu_z}"/>
+    </joint>
+    <link name="imu_sensor">
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 ${imu_height/2}"/>
+        <geometry>
+          <box size="${imu_width} ${imu_width} ${imu_height}"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 ${imu_height/2}"/>
+        <geometry>
+          <box size="${imu_width} ${imu_width} ${imu_height}"/>
+        </geometry>
+        <material name="Blue"/>
+      </visual>
+      <inertial>
+        <origin rpy="0 0 0" xyz="0 0 1"/>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+    
+    <joint name="mag_fixed_joint" type="fixed">
+      <parent link="testenv_eef_link"/>
+      <child link="mag_sensor"/>
+      <origin rpy="0.0 0 0.0" xyz="${imu_x} ${imu_y} ${imu_z}"/>
+    </joint>
+    <link name="mag_sensor">
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 ${imu_height+imu_height/2}"/>
+        <geometry>
+          <box size="${imu_width} ${imu_width} ${imu_height}"/>
+        </geometry>
+      </collision>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 ${imu_height+imu_height/2}"/>
+        <geometry>
+          <box size="${imu_width} ${imu_width} ${imu_height}"/>
+        </geometry>
+        <material name="Orange"/>
+      </visual>
+      <inertial>
+        <origin rpy="0 0 0" xyz="0 0 1"/>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+<!--
+<gazebo reference="imu_sensor">
+    <gravity>true</gravity>
+    <sensor name="imu_sensorx" type="imu">
+      <always_on>true</always_on>
+      <update_rate>1000</update_rate>
+      <visualize>true</visualize>
+      <topic>raw_imu</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>raw_imu</topicName>
+        <bodyName>imu_sensor</bodyName>
+        <updateRateHZ>1000.0</updateRateHZ>
+        <gaussianNoise>0.35</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_sensor</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo> -->
+
+<gazebo>
+	
+      <plugin filename="libhector_gazebo_ros_imu.so" name="imu_controller">
+        
+        <alwaysOn>true</alwaysOn>
+        <updateRate>1000.0</updateRate>
+        <bodyName>imu_sensor</bodyName>
+        <frameId>imu_sensor</frameId>
+        <topicName>raw_imu</topicName>
+        
+       
+        <accelDrift>0.1 0.1 0.1</accelDrift>
+        <accelGaussianNoise>0.35 0.35 0.35</accelGaussianNoise>
+        
+         <!---->
+        <rateDrift>0.1 0.1 0.1</rateDrift>
+        <rateGaussianNoise>0.1 0.1 0.1</rateGaussianNoise> 
+        
+        <!-- -->
+        <headingDrift>0.005</headingDrift>
+        <headingGaussianNoise>0.005</headingGaussianNoise> 
+
+        
+      </plugin> 
+
+
+      <plugin filename="libhector_gazebo_ros_magnetic.so" name="magneto_controller">
+        <alwaysOn>true</alwaysOn>
+      <updateRate>1000.0</updateRate>
+      <bodyName>mag_sensor</bodyName>
+      <frameId>mag_sensor</frameId>
+      <topicName>magnetic</topicName>
+      <offset>0 0 0</offset>
+      <drift>0.0 0.0 0.0</drift>
+      <gaussianNoise>1.3e-2 1.3e-2 1.3e-2</gaussianNoise>
+    </plugin>
+
+    <plugin filename="libhector_gazebo_ros_imu.so" name="imu_controller2">
+        
+        <alwaysOn>true</alwaysOn>
+        <updateRate>1000.0</updateRate>
+        <bodyName>testenv_base_link</bodyName>
+        <frameId>testenv_base_link</frameId>
+        <topicName>raw_imu2</topicName>
+        <accelDrift>0.1 0.1 0.1</accelDrift>
+        <accelGaussianNoise>0.35 0.35 0.35</accelGaussianNoise>
+        <rateDrift>0.1 0.1 0.1</rateDrift>
+        <rateGaussianNoise>0.05 0.05 0.05</rateGaussianNoise>
+        <headingDrift>0.005</headingDrift>
+        <headingGaussianNoise>0.005</headingGaussianNoise>
+      </plugin> 
+
+    <plugin filename="libhector_gazebo_ros_magnetic.so" name="magneto_controller2">
+        <alwaysOn>true</alwaysOn>
+      <updateRate>1000.0</updateRate>
+      <bodyName>testenv_base_link</bodyName>
+      <frameId>testenv_base_link</frameId>
+      <topicName>magnetic2</topicName>
+      <offset>0 0 0</offset>
+      <drift>0.0 0.0 0.0</drift>
+      <gaussianNoise>1.3e-2 1.3e-2 1.3e-2</gaussianNoise>
+    </plugin>
+    </gazebo>
+
+    
+  </xacro:macro>
+  <!--<frameId>testenv_eef_link</frameId>-->
+</robot>

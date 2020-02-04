@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <xacro:macro name="testenv_gazebo">
+    <gazebo reference="testenv_base_link">
+      <material>Gazebo/Brown</material>
+      <!--<turnGravityOff>false</turnGravityOff>-->
+    </gazebo>
+    <gazebo reference="testenv_link_1">
+      <material>Gazebo/White</material>
+      <!--<turnGravityOff>false</turnGravityOff>-->
+    </gazebo>
+    <gazebo reference="testenv_link_2">
+      <material>Gazebo/White</material>
+     <!-- <turnGravityOff>false</turnGravityOff>-->
+    </gazebo>
+    <gazebo reference="testenv_link_3">
+      <material>Gazebo/White</material>
+      <!--<turnGravityOff>false</turnGravityOff>-->
+    </gazebo>
+    <gazebo reference="testenv_link_4">
+
+      <turnGravityOff>false</turnGravityOff><!---->
+    </gazebo>
+    <gazebo reference="testenv_link_5">
+
+      <turnGravityOff>false</turnGravityOff><!---->
+    </gazebo>
+    <gazebo reference="testenv_link_6">
+
+      <turnGravityOff>false</turnGravityOff><!---->
+    </gazebo>
+    <gazebo reference="testenv_eef_link">
+      <material>Gazebo/Silver</material>
+      <turnGravityOff>false</turnGravityOff><!---->
+    </gazebo>
+    <gazebo reference="imu_sensor">
+    <material>Gazebo/Blue</material>
+    </gazebo>
+    <gazebo reference="mag_sensor">
+    <material>Gazebo/Orange</material>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>
