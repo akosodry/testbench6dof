@@ -1,7 +1,10 @@
 # testbench6dof
 A free-to-use Robot Operating System (ROS) package that enables both the generation of MARG-based measurements and the testing of filter performances.
 
-Odry, Á.; Kecskes, I.; Sarcevic, P.; Vizvari, Z.; Toth, A.; Odry, P. A Novel Fuzzy-Adaptive Extended Kalman Filter for Real-Time Attitude Estimation of Mobile Robots. Sensors 2020, 20, 803.
+**CITE THIS as:**
+
+**Odry, Á.; Kecskes, I.; Sarcevic, P.; Vizvari, Z.; Toth, A.; Odry, P. A Novel Fuzzy-Adaptive Extended Kalman Filter for Real-Time Attitude Estimation of Mobile Robots. Sensors 2020, 20, 803.**
+
 https://www.mdpi.com/1424-8220/20/3/803
 
 
